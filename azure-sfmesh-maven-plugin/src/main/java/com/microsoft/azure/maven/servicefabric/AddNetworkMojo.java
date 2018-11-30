@@ -77,11 +77,11 @@ public class AddNetworkMojo extends AbstractAzureMojo
                 networkContent = Utils.replaceString(logger, networkContent, "ADDRESS_PREFIX", networkAddressPrefix, Constants.NETWORK_RESOURCE_NAME);
                 networkContent = Utils.replaceString(logger, networkContent, "NETWORK_KIND", networkKind, Constants.NETWORK_RESOURCE_NAME);
                 FileUtils.fileWrite(Utils.getPath(appResourcesDirectory, "network_" + networkName + ".yaml"), networkContent);
-				logger.debug(String.format("Wrote %s network content to output", networkName));
+				info(String.format("Wrote %s network content to output", networkName));
                 TelemetryHelper.sendEvent(TelemetryEventType.ADDNETWORK, String.format("Added network with name: %s", networkName), logger);
             }
             catch (IOException e) {
-				logger.error(e);
+				error(e.toString());
 				throw new MojoFailureException("Error while writing output");
 			} 
         }

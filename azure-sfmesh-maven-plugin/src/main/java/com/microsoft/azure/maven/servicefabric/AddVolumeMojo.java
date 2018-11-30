@@ -91,10 +91,10 @@ public class AddVolumeMojo extends AbstractAzureMojo
 				volumeContent = Utils.replaceString(logger, volumeContent, "VOLUME_ACCOUNT_KEY", volumeAccountKey, Constants.VOLUME_RESOURCE_NAME);
 				volumeContent = Utils.replaceString(logger, volumeContent, "VOLUME_SHARE_NAME", volumeShareName, Constants.VOLUME_RESOURCE_NAME);
 				FileUtils.fileWrite(Utils.getPath(appResourcesDirectory, "volume_" + volumeName + ".yaml"), volumeContent);
-				logger.debug(String.format("Wrote %s volume content to output", volumeName));
+				info(String.format("Wrote %s volume content to output", volumeName));
 				TelemetryHelper.sendEvent(TelemetryEventType.ADDVOLUME, String.format("Added volume with name: %s", volumeName), logger);
 			} catch (IOException e) {
-				logger.error(e);
+				error(e.toString());
 				throw new MojoFailureException("Error while writing output");
 			} 
 		}

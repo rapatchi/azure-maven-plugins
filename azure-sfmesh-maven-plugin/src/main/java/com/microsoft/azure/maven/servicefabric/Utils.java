@@ -52,7 +52,7 @@ public class Utils
         }
     }
     public static String replaceString(Log logger, String content, String originalString, String replaceString, String resourceFileName){
-        logger.debug(String.format("replacing %s with %s in %s", originalString, replaceString, resourceFileName));
+        logger.info(String.format("replacing %s with %s in %s", originalString, replaceString, resourceFileName));
         return content.replace(originalString, replaceString);
     }
 
@@ -82,7 +82,7 @@ public class Utils
             int exitCode = p.exitValue();
             String stderr = IOUtil.toString(p.getErrorStream(), "UTF-8");
             String stdout = IOUtil.toString(p.getInputStream(), "UTF-8");
-            logger.debug(String.format("STDOUT: %s", stdout));
+            logger.info(String.format("STDOUT: %s", stdout));
             if(stderr != null && stderr.length() > 0 ){
                 if(exitCode != 0){
                     logger.error(String.format("Process exited with exit code %d", exitCode));
@@ -112,7 +112,7 @@ public class Utils
             int exitCode = p.exitValue();
             String stderr = IOUtil.toString(p.getErrorStream(), "UTF-8");
             String stdout = IOUtil.toString(p.getInputStream(), "UTF-8");
-            logger.debug(String.format("STDOUT: %s", stdout));
+            logger.info(String.format("STDOUT: %s", stdout));
             if(stderr != null && stderr.length() > 0 ){
                 if(exitCode != 0){
                     logger.error(String.format("Process exited with exit code %d", exitCode));

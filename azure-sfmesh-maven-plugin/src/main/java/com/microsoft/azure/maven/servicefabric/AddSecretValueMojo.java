@@ -64,11 +64,11 @@ public class AddSecretValueMojo extends AbstractAzureMojo{
                 secretValueContent = Utils.replaceString(logger, secretValueContent, "SECRET_VALUE_NAME", secretValueName, Constants.SECRET_VALUE_RESOURCE_NAME);
                 secretValueContent = Utils.replaceString(logger, secretValueContent, "SECRET_VALUE", secretValue, Constants.SECRET_VALUE_RESOURCE_NAME);
                 FileUtils.fileWrite(Utils.getPath(appResourcesDirectory, "secretvalue_" + secretValueSplit[0] +"_"+ secretValueSplit[1]+ ".yaml"), secretValueContent);
-				logger.debug(String.format("Wrote %s secret value content to output", secretValueName));
+				info(String.format("Wrote %s secret value content to output", secretValueName));
                 TelemetryHelper.sendEvent(TelemetryEventType.ADDSECRETVALUE, String.format("Added secret value with name: %s", secretValueName), logger);
             }
             catch (IOException e) {
-				logger.error(e);
+				error(e.toString());
 				throw new MojoFailureException("Error while writing output");
 			} 
         }

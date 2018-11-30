@@ -55,10 +55,10 @@ public class DeployMojo extends AbstractAzureMojo
         }
 
         // Create resource group
-        logger.info("Creating Resource Group");
+        info("Creating Resource Group");
         Utils.executeCommand(logger, String.format("az group create --name %s --location %s", resourceGroup, location));
         // Perform deployment
-        logger.info("Performing deployment");
+        info("Performing deployment");
         Utils.executeCommand(logger, String.format("az mesh deployment create --resource-group %s --input-yaml-file-paths %s  --parameters \"{'location': {'value': '%s'}}\"", resourceGroup, inputYamlFilePaths, location));
         TelemetryHelper.sendEvent(TelemetryEventType.DEPLOYMESH, String.format("Deployed application on mesh"), logger);
     }

@@ -50,7 +50,7 @@ public class InitMojo extends AbstractAzureMojo
         String serviceFabricResourcesDirectory = Utils.getServicefabricResourceDirectory(logger, project);
         String appResourcesDirectory = Utils.getAppResourcesDirectory(logger, project);
         if(!Utils.checkIfExists(serviceFabricResourcesDirectory)){
-            logger.debug(String.format("Creating service fabric resources directory %s", serviceFabricResourcesDirectory));
+            info(String.format("Creating service fabric resources directory %s", serviceFabricResourcesDirectory));
             Utils.createDirectory(logger, serviceFabricResourcesDirectory);
         }
         if(!Utils.checkIfExists(appResourcesDirectory)){
@@ -69,10 +69,10 @@ public class InitMojo extends AbstractAzureMojo
             else{
                 FileUtils.fileWrite(appYamlPath, appContent);
             }
-            logger.debug(String.format("Wrote %s application content to output", applicationName));
+            info(String.format("Wrote %s application content to output", applicationName));
             TelemetryHelper.sendEvent(TelemetryEventType.INIT, String.format("Added application with name: %s", applicationName), logger);
 		} catch (IOException e) {
-            logger.error(e);
+            error(e.toString());
             throw new MojoFailureException("Error while writing output");
 		}
     }
