@@ -1,5 +1,7 @@
 package com.microsoft.azure.maven.servicefabric;
 
+import com.microsoft.azure.maven.AbstractAzureMojo;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -11,7 +13,7 @@ import org.apache.maven.plugin.logging.Log;
  * Goal which deploys application to mesh
  */
 @Mojo( name = "deploy", defaultPhase = LifecyclePhase.NONE )
-public class DeployMojo extends AbstractMojo
+public class DeployMojo extends AbstractAzureMojo
 {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
@@ -37,7 +39,7 @@ public class DeployMojo extends AbstractMojo
     public Log logger  = getLog();
 
 	@Override
-	public void execute() throws MojoFailureException {
+	public void doExecute() throws MojoFailureException {
         String serviceFabricResourcesDirectory = Utils.getServicefabricResourceDirectory(logger, project);
         if(!Utils.checkIfExists(serviceFabricResourcesDirectory)){
             throw new MojoFailureException("Service fabric resources folder does not exist. Please run init goal before running this goal!");

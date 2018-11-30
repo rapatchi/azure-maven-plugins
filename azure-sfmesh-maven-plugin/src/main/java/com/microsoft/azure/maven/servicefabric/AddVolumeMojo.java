@@ -1,5 +1,7 @@
 package com.microsoft.azure.maven.servicefabric;
 
+import com.microsoft.azure.maven.AbstractAzureMojo;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -17,7 +19,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
  * Goal which adds a volume resource to a project.
  */
 @Mojo( name = "addvolume", defaultPhase = LifecyclePhase.NONE )
-public class AddVolumeMojo extends AbstractMojo
+public class AddVolumeMojo extends AbstractAzureMojo
 {
 
     /**
@@ -68,7 +70,7 @@ public class AddVolumeMojo extends AbstractMojo
 	public Log logger  = getLog();
 	
 	@Override
-	public void execute() throws MojoFailureException {
+	public void doExecute() throws MojoFailureException {
 		String serviceFabricResourcesDirectory = Utils.getServicefabricResourceDirectory(logger, project);
 		String appResourcesDirectory = Utils.getAppResourcesDirectory(logger, project);
         if(!Utils.checkIfExists(serviceFabricResourcesDirectory)){

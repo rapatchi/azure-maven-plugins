@@ -1,5 +1,7 @@
 package com.microsoft.azure.maven.servicefabric;
 
+import com.microsoft.azure.maven.AbstractAzureMojo;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
@@ -17,7 +19,7 @@ import java.io.*;
  * Goal which creates initial application resource of a project.
  */
 @Mojo( name = "init", defaultPhase = LifecyclePhase.NONE )
-public class InitMojo extends AbstractMojo
+public class InitMojo extends AbstractAzureMojo
 {
     /**
      * schema version of the network yaml to be generated
@@ -43,7 +45,7 @@ public class InitMojo extends AbstractMojo
     private Log logger  = getLog();
 
     @Override
-    public void execute() throws MojoFailureException
+    public void doExecute() throws MojoFailureException
     {
         String serviceFabricResourcesDirectory = Utils.getServicefabricResourceDirectory(logger, project);
         String appResourcesDirectory = Utils.getAppResourcesDirectory(logger, project);
@@ -57,6 +59,7 @@ public class InitMojo extends AbstractMojo
         try {
             InputStream resource = this.getClass().getClassLoader().getResourceAsStream(Constants.APPLICATION_RESOURCE_NAME);
             String appContent = IOUtil.toString(resource, "UTF-8"); 
+            appContent = Utils.replaceString(logger, appContent, "SCHEMA_VERSION", schemaVersion, Constants.APPLICATION_RESOURCE_NAME);
             appContent = Utils.replaceString(logger, appContent, "APP_NAME", applicationName, Constants.APPLICATION_RESOURCE_NAME);
             appContent = Utils.replaceString(logger, appContent, "APP_DESCRIPTION", applicationDescription, Constants.APPLICATION_RESOURCE_NAME);
             String appYamlPath = Utils.getPath(appResourcesDirectory, "app_" + applicationName + ".yaml");

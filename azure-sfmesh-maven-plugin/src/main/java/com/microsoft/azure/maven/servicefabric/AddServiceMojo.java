@@ -1,5 +1,7 @@
 package com.microsoft.azure.maven.servicefabric;
 
+import com.microsoft.azure.maven.AbstractAzureMojo;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
  * Goal which adds a service resource to a project.
  */
 @Mojo( name = "addservice", defaultPhase = LifecyclePhase.NONE )
-public class AddServiceMojo extends AbstractMojo
+public class AddServiceMojo extends AbstractAzureMojo
 {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
@@ -111,7 +113,7 @@ public class AddServiceMojo extends AbstractMojo
     private Log logger  = getLog();
 
 	@Override
-	public void execute() throws MojoFailureException {
+	public void doExecute() throws MojoFailureException {
         addService();
     }
     

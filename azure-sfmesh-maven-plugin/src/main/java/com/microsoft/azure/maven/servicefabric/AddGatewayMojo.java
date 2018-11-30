@@ -1,5 +1,7 @@
 package com.microsoft.azure.maven.servicefabric;
 
+import com.microsoft.azure.maven.AbstractAzureMojo;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -17,7 +19,7 @@ import org.codehaus.plexus.util.IOUtil;
  * Goal which adds a gateway resource to a project.
  */
 @Mojo(name = "addgateway", defaultPhase = LifecyclePhase.NONE)
-public class AddGatewayMojo extends AbstractMojo {
+public class AddGatewayMojo extends AbstractAzureMojo {
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
@@ -86,7 +88,7 @@ public class AddGatewayMojo extends AbstractMojo {
     public Log logger  = getLog();
 
     @Override
-    public void execute() throws MojoFailureException {
+    public void doExecute() throws MojoFailureException {
 
         String serviceFabricResourcesDirectory = Utils.getServicefabricResourceDirectory(logger, project);
 		String appResourcesDirectory = Utils.getAppResourcesDirectory(logger, project);
