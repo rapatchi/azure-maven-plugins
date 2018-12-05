@@ -31,6 +31,7 @@
     <maven.plugin-testing.version>3.3.0</maven.plugin-testing.version>
     <maven.version>3.3.3</maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <azure.ai.ikey>58ef8eab-a250-4b11-aea8-36435e5be1a7</azure.ai.ikey>
   </properties>
 
   <licenses>

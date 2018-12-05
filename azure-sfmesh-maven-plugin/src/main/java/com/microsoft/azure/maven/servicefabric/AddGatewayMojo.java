@@ -119,7 +119,7 @@ public class AddGatewayMojo extends AbstractAzureMojo {
                 gatewayContent = Utils.replaceString(logger, gatewayContent, "LISTENER_NAME", listenerName, Constants.GATEWAY_RESOURCE_NAME);
                 FileUtils.fileWrite(Utils.getPath(appResourcesDirectory, "gateway_" + gatewayName + ".yaml"), gatewayContent);
 				info(String.format("Wrote %s gateway content to output", gatewayName));
-                TelemetryHelper.sendEvent(TelemetryEventType.ADDGATEWAY, String.format("Added gateway with name: %s", gatewayName), logger);
+                TelemetryHelper.sendEvent(TelemetryEventType.ADDGATEWAY, String.format("Added gateway with name: %s", gatewayName), getTelemetryProxy());
             }
             catch (IOException e) {
 				error(e.toString());

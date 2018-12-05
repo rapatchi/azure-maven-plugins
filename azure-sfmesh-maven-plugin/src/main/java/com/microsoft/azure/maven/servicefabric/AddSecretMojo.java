@@ -77,7 +77,7 @@ public class AddSecretMojo extends AbstractAzureMojo
                 secretContent = Utils.replaceString(logger, secretContent, "SECRET_KIND", secretKind, Constants.SECRET_RESOURCE_NAME);
                 FileUtils.fileWrite(Utils.getPath(appResourcesDirectory, "secret_" + secretName + ".yaml"), secretContent);
 				info(String.format("Wrote %s secret content to output", secretName));
-                TelemetryHelper.sendEvent(TelemetryEventType.ADDSECRET, String.format("Added secret with name: %s", secretName), logger);
+                TelemetryHelper.sendEvent(TelemetryEventType.ADDSECRET, String.format("Added secret with name: %s", secretName), getTelemetryProxy());
             }
             catch (IOException e) {
 				error(e.toString());

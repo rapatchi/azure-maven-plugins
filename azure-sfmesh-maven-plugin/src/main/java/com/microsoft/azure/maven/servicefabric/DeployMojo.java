@@ -60,6 +60,6 @@ public class DeployMojo extends AbstractAzureMojo
         // Perform deployment
         info("Performing deployment");
         Utils.executeCommand(logger, String.format("az mesh deployment create --resource-group %s --input-yaml-file-paths %s  --parameters \"{'location': {'value': '%s'}}\"", resourceGroup, inputYamlFilePaths, location));
-        TelemetryHelper.sendEvent(TelemetryEventType.DEPLOYMESH, String.format("Deployed application on mesh"), logger);
+        TelemetryHelper.sendEvent(TelemetryEventType.DEPLOYMESH, String.format("Deployed application on mesh"), getTelemetryProxy());
     }
 }

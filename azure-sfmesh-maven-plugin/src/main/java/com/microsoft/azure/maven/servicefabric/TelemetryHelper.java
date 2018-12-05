@@ -1,6 +1,7 @@
 package com.microsoft.azure.maven.servicefabric;
 
 import com.microsoft.applicationinsights.TelemetryClient;
+import com.microsoft.azure.maven.telemetry.TelemetryProxy;
 
 import org.apache.maven.plugin.logging.Log;
 import java.util.HashMap;
@@ -9,16 +10,15 @@ import java.util.Map;
 public class TelemetryHelper {
 	private static final TelemetryClient client= new TelemetryClient();
 
-	public static boolean sendEvent(TelemetryEventType type, String value, Log logger){
-		Map<String, String> properties = new HashMap<String, String>();
-		properties.put("Description", value);
+	public static void sendEvent(TelemetryEventType type, String value, TelemetryProxy proxy){
 		try {
-			client.trackEvent(type.getValue(), properties, null);
-			client.flush();
+			Map<String, String> properties = new HashMap<String, String>();
+			properties.put("Description", value);
+			proxy.trackEvent(type.getValue(), properties);
 			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			logger.error(String.format("Failed sending telemetry event of type %s", type.getValue()));
 		}
-		return true;
+		catch(InterruptedException e){
+			// Not handling this exception as failing to send telemetry event is acceptable
+		}
 	}
 }
