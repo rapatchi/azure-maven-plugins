@@ -21,8 +21,8 @@ public class DeployMojo extends AbstractAzureMojo
     /**
      * Comma seperated resource files or the directory in which the resource files are present
     */
-    @Parameter(property = "inputYamlFilePaths", defaultValue = Constants.SERVICE_FABRIC_RESOURCES_PATH)
-    String inputYamlFilePaths;
+    @Parameter(property = "inputYamlFiles", defaultValue = Constants.SERVICE_FABRIC_RESOURCES_PATH)
+    String inputYamlFiles;
 
     /**
      * Name of the resource group
@@ -44,8 +44,8 @@ public class DeployMojo extends AbstractAzureMojo
         if(!Utils.checkIfExists(serviceFabricResourcesDirectory)){
             throw new MojoFailureException("Service fabric resources folder does not exist. Please run init goal before running this goal!");
         }
-        if(inputYamlFilePaths.equals(Constants.SERVICE_FABRIC_RESOURCES_PATH)){
-            inputYamlFilePaths = Utils.getServicefabricResourceDirectory(logger, project);
+        if(inputYamlFiles.equals(Constants.SERVICE_FABRIC_RESOURCES_PATH)){
+            inputYamlFiles = Utils.getServicefabricResourceDirectory(logger, project);
         }
 
         Utils.checkazinstallation(logger);
@@ -59,7 +59,7 @@ public class DeployMojo extends AbstractAzureMojo
         Utils.executeCommand(logger, String.format("az group create --name %s --location %s", resourceGroup, location));
         // Perform deployment
         info("Performing deployment");
-        Utils.executeCommand(logger, String.format("az mesh deployment create --resource-group %s --input-yaml-file-paths %s  --parameters \"{'location': {'value': '%s'}}\"", resourceGroup, inputYamlFilePaths, location));
+        Utils.executeCommand(logger, String.format("az mesh deployment create --resource-group %s --input-yaml-files %s  --parameters \"{'location': {'value': '%s'}}\"", resourceGroup, inputYamlFiles, location));
         TelemetryHelper.sendEvent(TelemetryEventType.DEPLOYMESH, String.format("Deployed application on mesh"), getTelemetryProxy());
     }
 }
