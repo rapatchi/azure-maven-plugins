@@ -27,9 +27,6 @@ public class InitMojo extends AbstractAzureMojo
     @Parameter(property = "schemaVersion", defaultValue = Constants.DEFAULT_SCHEMA_VERSION)
 	String schemaVersion;
 
-    @Parameter(defaultValue = "${project}", required = true, readonly = true)
-    MavenProject project;
-
     /**
      * Name of the application
     */

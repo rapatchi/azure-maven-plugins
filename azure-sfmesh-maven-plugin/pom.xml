@@ -22,7 +22,7 @@
 
   <properties>
     <azure.maven-plugin-lib.version>1.2.4-SNAPSHOT</azure.maven-plugin-lib.version>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.4</junit.version>
     <jackson.core.version>2.9.7</jackson.core.version>
     <jackson.dataformat.version>2.9.7</jackson.dataformat.version>
     <maven.compiler.source>1.7</maven.compiler.source>
@@ -32,6 +32,7 @@
     <maven.version>3.3.3</maven.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <azure.ai.ikey>58ef8eab-a250-4b11-aea8-36435e5be1a7</azure.ai.ikey>
+    <powermock.version>1.7.1</powermock.version>
   </properties>
 
   <licenses>
@@ -119,6 +120,23 @@
       <artifactId>azure-maven-plugin-lib</artifactId>
       <version>${azure.maven-plugin-lib.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>1.5.12</version>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4-legacy</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+   </dependency>
+   <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+   </dependency>
   </dependencies>
 
   <build>
@@ -155,7 +173,6 @@
     <profile>
       <id>run-its</id>
       <build>
-
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
