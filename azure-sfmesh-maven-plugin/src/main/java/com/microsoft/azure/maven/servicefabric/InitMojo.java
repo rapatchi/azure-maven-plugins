@@ -67,7 +67,9 @@ public class InitMojo extends AbstractAzureMojo
                 FileUtils.fileWrite(appYamlPath, appContent);
             }
             info(String.format("Wrote %s application content to output", applicationName));
-            TelemetryHelper.sendEvent(TelemetryEventType.INIT, String.format("Added application with name: %s", applicationName), getTelemetryProxy());
+            if(isTelemetryAllowed()) {
+            	TelemetryHelper.sendEvent(TelemetryEventType.INIT, String.format("Added application with name: %s", applicationName), getTelemetryProxy());
+            }
 		} catch (IOException e) {
             error(e.toString());
             throw new MojoFailureException("Error while writing output");

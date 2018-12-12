@@ -168,7 +168,9 @@ public class AddServiceMojo extends AbstractAzureMojo
                 Utils.createDirectory(logger, serviceDirectory);
                 FileUtils.fileWrite(Utils.getPath(serviceDirectory, "service_" + serviceName + ".yaml"), serviceContent);
                 info(String.format("Wrote %s service content to output", serviceName));
-                TelemetryHelper.sendEvent(TelemetryEventType.ADDSERVICE, String.format("Added service with name: %s", serviceName), getTelemetryProxy());
+                if(isTelemetryAllowed()) {
+                	TelemetryHelper.sendEvent(TelemetryEventType.ADDSERVICE, String.format("Added service with name: %s", serviceName), getTelemetryProxy());
+                }
             } catch (IOException e) {
                 error(e.toString());
                 throw new MojoFailureException("Error while writing output");

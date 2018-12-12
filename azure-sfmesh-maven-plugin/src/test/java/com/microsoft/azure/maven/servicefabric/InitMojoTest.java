@@ -7,46 +7,54 @@
 package com.microsoft.azure.maven.servicefabric;
 
 import java.io.File;
-import org.apache.maven.plugin.testing.MojoRule;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.project.MavenProject;
 import org.apache.maven.settings.Settings;
-import org.junit.Rule;
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
+import static org.powermock.api.mockito.PowerMockito.doReturn;
+import static org.powermock.api.mockito.PowerMockito.spy;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Utils.class)
-public class InitMojoTest
+public class InitMojoTest extends MeshMojoTestBase
 {
-    @Rule
-    public MojoRule rule = new MojoRule() {
-        @Override
-        protected void before() throws Throwable {
-        }
 
-        @Override
-        protected void after() {
-        }
-    };
+    private InitMojo mojo = null;
+    private InitMojo mojoSpy = null;
+    @Before
+    public void setUp() throws Exception {
+    	mojoName = "init";
+        mojo = (InitMojo) getMojoFromPom(mojoName);
+        mojoSpy = spy(mojo);
+        spy(Utils.class);
+        Files.createDirectory(Paths.get("./target/" + mojoName));
+    }
 
+    @After
+    public void cleanUp() throws Exception{
+    	FileUtils.deleteDirectory(new File(Paths.get("./target/" + mojoName).toString()));
+    }
+    
     @Test
     public void testInitMojo() throws Exception{
-        File testPom = new File(this.getClass().getResource("/pom.xml").toURI());
-        assertNotNull(testPom);
-        final InitMojo mojo = (InitMojo) rule.lookupMojo("init", testPom );
         final Settings settings = new Settings();
-        PowerMockito.mockStatic(Utils.class);
-        Mockito.when(Utils.getServicefabricResourceDirectory(null, null)).thenReturn("hello");
-        rule.setVariableValueToObject(mojo, "settings", settings);
-        rule.setVariableValueToObject(mojo, "schemaVersion", "1.0.0-preview2");
-        rule.setVariableValueToObject(mojo, "applicationName", "sfmeshtest");
-        rule.setVariableValueToObject(mojo, "applicationDescription", "Serivce Fabric Mesh init goal test");
-        mojo.doExecute();
+        final Log logger = (Log) rule.getVariableValueFromObject(mojoSpy, "logger");
+        final MavenProject project = (MavenProject) rule.getVariableValueFromObject(mojoSpy, "project");
+        doReturn((Paths.get("./target/"+mojoName + "/servicefabric").toString())).when(Utils.class, "getServicefabricResourceDirectory", logger, project);
+        rule.setVariableValueToObject(mojoSpy, "settings", settings);
+        rule.setVariableValueToObject(mojoSpy, "schemaVersion", "1.0.0-preview2");
+        rule.setVariableValueToObject(mojoSpy, "applicationName", "sfmeshtest");
+        rule.setVariableValueToObject(mojoSpy, "applicationDescription", "Serivce Fabric Mesh init goal test");
+        rule.setVariableValueToObject(mojoSpy, "allowTelemetry", false);
+        mojoSpy.doExecute();
     }
 }

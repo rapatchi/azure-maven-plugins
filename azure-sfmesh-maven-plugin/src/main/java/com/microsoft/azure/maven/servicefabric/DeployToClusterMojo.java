@@ -51,12 +51,16 @@ public class DeployToClusterMojo extends AbstractAzureMojo
         if(pemFilePath.equalsIgnoreCase(Constants.DEFAULT_PEM_FILE_PATH)){
             Utils.connecttounsecurecluster(logger, clusterEndpoint);
             Utils.executeCommand(logger, "sfctl mesh deployment create --input-yaml-files " + inputYamlFiles);
-            TelemetryHelper.sendEvent(TelemetryEventType.DEPLOYLOCAL, String.format("Deployed application locally"), getTelemetryProxy());
+            if(isTelemetryAllowed()) {
+            	TelemetryHelper.sendEvent(TelemetryEventType.DEPLOYLOCAL, String.format("Deployed application locally"), getTelemetryProxy());
+            }
         }
         else{
             Utils.connecttosecurecluster(logger, clusterEndpoint, pemFilePath);
             Utils.executeCommand(logger, "sfctl mesh deployment create --input-yaml-files " + inputYamlFiles);
-            TelemetryHelper.sendEvent(TelemetryEventType.DEPLOYSFRP, String.format("Deployed application to SFRP"), getTelemetryProxy());
+            if(isTelemetryAllowed()) {
+            	TelemetryHelper.sendEvent(TelemetryEventType.DEPLOYSFRP, String.format("Deployed application to SFRP"), getTelemetryProxy());
+            }
         }
     }
 }
